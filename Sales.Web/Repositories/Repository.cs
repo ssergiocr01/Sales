@@ -60,18 +60,17 @@ namespace Sales.Web.Repositories
 
         public async Task<HttpResponseWrapper<object>> Put<T>(string url, T model)
         {
-            var messageJson = JsonSerializer.Serialize(model);
-            var messageContent = new StringContent(messageJson, Encoding.UTF8, "application/json");
-            var responseHttp = await _httpClient.PostAsync(url, messageContent);
+            var messageJSON = JsonSerializer.Serialize(model);
+            var messageContent = new StringContent(messageJSON, Encoding.UTF8, "application/json");
+            var responseHttp = await _httpClient.PutAsync(url, messageContent);
             return new HttpResponseWrapper<object>(null, !responseHttp.IsSuccessStatusCode, responseHttp);
         }
 
         public async Task<HttpResponseWrapper<TResponse>> Put<T, TResponse>(string url, T model)
         {
-            var messageJson = JsonSerializer.Serialize(model);
-            var messageContent = new StringContent(messageJson, Encoding.UTF8, "application/json");
-            var responseHttp = await _httpClient.PostAsync(url, messageContent);
-
+            var messageJSON = JsonSerializer.Serialize(model);
+            var messageContent = new StringContent(messageJSON, Encoding.UTF8, "application/json");
+            var responseHttp = await _httpClient.PutAsync(url, messageContent);
             if (responseHttp.IsSuccessStatusCode)
             {
                 var response = await UnserializeAnswer<TResponse>(responseHttp, _jsonDefaultOptions);
